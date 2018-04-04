@@ -1,0 +1,11 @@
+{
+    "id": "share_events",
+    "name": "Share Events",
+    "description": "Add functionnalities for calendar events sharing",
+    "keywords": ["humhub", "space", "share"],
+    "version": "1.0",
+    "humhub": {
+        "minVersion": "1.2.0"
+    }
+}
+
