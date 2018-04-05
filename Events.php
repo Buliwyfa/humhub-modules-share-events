@@ -24,9 +24,19 @@ class Events extends \yii\base\Object
         ]);
     }
 
+    static function toCalendarItem($entry)
+    {
+        // wtf? we need this, because returning $entry directly fucks up with
+        // modal loading and return getFullCalendarArray fucks up on stream
+        // view because start isn't a date.
+        $item = $entry->fullCalendarArray;
+        $item['start'] = $entry->getStartDateTime();
+        $item['end'] = $entry->getEndDateTime();
+        return $item;
+    }
+
     public static function onCalendarFindItems($event)
     {
-        // TODO: visibility/publicity of calendar?
         $contentContainer = $event->contentContainer;
         if(!$contentContainer || !$contentContainer->isModuleEnabled('calendar'))
             return;
@@ -46,7 +56,7 @@ class Events extends \yii\base\Object
             ]);
 
         $event->addItems('share', array_map(
-            function($entry) { return $entry->getFullCalendarArray(); },
+            function($entry) { return Events::toCalendarItem($entry); },
             $calendar->all()
         ));
     }
